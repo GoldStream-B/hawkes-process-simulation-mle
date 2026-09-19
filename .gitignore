@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+
+.DS_Store
+.env
+
+.idea/
+.vscode/
+# Local experiments
+local_experiments/
+local_outputs/
+*.local.py
