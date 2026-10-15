@@ -118,7 +118,7 @@ python mle2nd.py
 
 The script fits the model to all 264 events from a simulation over $[0,200]$ with seed 7, then tests the fitted parameters on an independent simulation with seed 2. Both simulations use the true parameters $(\mu,\alpha,\beta)=(0.5,0.8,1.2)$. The optimizer uses fixed starting guesses.
 
-The script prints the test negative log-likelihood divided by the number of training events, $-\log L_{\mathrm{test}}/264$. With the current seeds, the score is approximately **0.3648**. The independent test simulation contains 356 events. When comparing models using the same test realization and denominator, a lower score corresponds to a higher test likelihood.
+The script prints the test negative log-likelihood divided by the number of test events, $-\log L_{\mathrm{test}}/356$. With the tested seed, the score is approximately **0.270558**. The independent test simulation contains 356 events.
 
 The script saves `figures/evaluation.png`. The solid curve uses the fitted parameters, and the dashed curve uses the true parameters; both conditional intensities use the same test event history. The horizontal axis shows time over $[0,200]$, sampled at 3,000 evenly spaced points.
 

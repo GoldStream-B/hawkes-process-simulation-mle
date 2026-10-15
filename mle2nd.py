@@ -77,7 +77,7 @@ if __name__ == '__main__':
         seed = 2
     )
     nll = negative_log_likelihood(result.x, test_set, T)
-    print(nll / len(events))
+    print(nll / len(test_set))
     true_params = (0.5, 0.8, 1.2)
     t_grid = np.linspace(0, T, 3000)
     fig_width, fig_height = plt.rcParams["figure.figsize"]
