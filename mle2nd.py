@@ -1,4 +1,3 @@
-from pathlib import Path
 from scipy.special import expit
 from scipy.optimize import minimize
 import numpy as np
@@ -43,8 +42,7 @@ def negative_log_likelihood(params, events, T):
 
     return -log_sum + integral
 
-def intensity(mu, alpha, beta, events, T):
-    t_grid = np.linspace(0, T,  3000)
+def intensity(mu, alpha, beta, events, t_grid):
     time_difference = (
             t_grid[:, None] - events[None, :]
     )
@@ -81,14 +79,22 @@ if __name__ == '__main__':
     nll = negative_log_likelihood(result.x, test_set, T)
     print(nll / len(events))
     true_params = (0.5, 0.8, 1.2)
+    t_grid = np.linspace(0, T, 3000)
     fig_width, fig_height = plt.rcParams["figure.figsize"]
     plt.figure(figsize=(fig_width * 1.5, fig_height))
     plt.plot(
-        intensity(*unpack_params(result.x), test_set, T)
+        t_grid,
+        intensity(*unpack_params(result.x), test_set, t_grid),
+        label="Fitted intensity",
     )
     plt.plot(
-        intensity(*true_params, test_set, T),
-        linestyle = "dashed"
+        t_grid,
+        intensity(*true_params, test_set, t_grid),
+        linestyle="dashed",
+        label="True-parameter intensity",
     )
-    output_path = Path(__file__).resolve().with_name("evaluation.png")
-    plt.savefig(output_path, dpi=300, bbox_inches="tight")
+    plt.xlim(0, T)
+    plt.xlabel("Time")
+    plt.ylabel("Intensity")
+    plt.legend()
+    plt.savefig("evaluation", dpi=300, bbox_inches="tight")
