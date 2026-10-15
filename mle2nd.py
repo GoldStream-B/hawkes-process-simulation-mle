@@ -79,7 +79,7 @@ if __name__ == '__main__':
         seed = 2
     )
     nll = negative_log_likelihood(result.x, test_set, T)
-    print(nll / T)
+    print(nll / len(events))
     true_params = (0.5, 0.8, 1.2)
     fig_width, fig_height = plt.rcParams["figure.figsize"]
     plt.figure(figsize=(fig_width * 1.5, fig_height))

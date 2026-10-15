@@ -116,7 +116,9 @@ Run the separate evaluation experiment with:
 python mle2nd.py
 ```
 
-The script fits the model to all 264 events from a simulation over $[0,200]$ with seed 7, then tests the fitted parameters on an independent simulation with seed 2. Both simulations use the true parameters $(\mu,\alpha,\beta)=(0.5,0.8,1.2)$. The optimizer uses fixed starting guesses. The script prints the test negative log-likelihood divided by the observation horizon, $-\log L_{\mathrm{test}}/200$; with the current seeds, this is approximately **0.4816**. Lower values indicate a better likelihood when comparing models on the same test realization.
+The script fits the model to all 264 events from a simulation over $[0,200]$ with seed 7, then tests the fitted parameters on an independent simulation with seed 2. Both simulations use the true parameters $(\mu,\alpha,\beta)=(0.5,0.8,1.2)$. The optimizer uses fixed starting guesses.
+
+The script prints the test negative log-likelihood divided by the number of training events, $-\log L_{\mathrm{test}}/264$. With the current seeds, the score is approximately **0.3648**. The independent test simulation contains 356 events. When comparing models using the same test realization and denominator, a lower score corresponds to a higher test likelihood.
 
 The script also saves `evaluation.png` in the project root. The solid curve uses the fitted parameters, and the dashed curve uses the true parameters; both conditional intensities use the same test event history. The plot's horizontal axis shows the index of each of the 3,000 evenly spaced evaluation points over $[0,200]$.
 
