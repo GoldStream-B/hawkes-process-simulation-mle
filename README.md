@@ -26,7 +26,7 @@ The MLE implementation enforces positive parameters and constrains the branching
 
 ## What the Experiment Does
 
-The current experiment:
+The `mle_and_plot.py` experiment:
 
 1. Simulates one Hawkes-process realization on the time interval $[0,200]$.
 2. Fits the parameters using only the first 100 events.
@@ -41,6 +41,7 @@ With the current parameters and random seed, the simulation produces 264 events.
 ```text
 hawkes_simulation.py   Simulates event times with Ogata's thinning algorithm
 mle_and_plot.py        Runs partial-data and full-data MLE and creates figures
+mle2nd.py              Evaluates a full-data fit on an independent simulation
 requirements.txt       Python dependencies
 figures/               Example output figures used in this README
 ```
@@ -57,7 +58,7 @@ The project requires NumPy, SciPy, and Matplotlib.
 
 ## Usage
 
-Run the complete experiment with:
+Run the simulation and parameter-comparison experiment with:
 
 ```bash
 python mle_and_plot.py
@@ -106,6 +107,20 @@ For the current random seed, the fitted values are:
 | All 264 events | 0.5383 | 0.7375 | 1.2349 |
 
 The full-data estimates are closer overall to the simulation parameters. A more accurate fit does not necessarily produce a uniformly higher intensity curve: the fitted intensity depends jointly on the baseline, jump size, decay rate, and realized event history.
+
+## Evaluation
+
+Run the separate evaluation experiment with:
+
+```bash
+python mle2nd.py
+```
+
+The script fits the model to all 264 events from a simulation over $[0,200]$ with seed 7, then tests the fitted parameters on an independent simulation with seed 2. Both simulations use the true parameters $(\mu,\alpha,\beta)=(0.5,0.8,1.2)$. The optimizer uses fixed starting guesses. The script prints the test negative log-likelihood divided by the observation horizon, $-\log L_{\mathrm{test}}/200$; with the current seeds, this is approximately **0.4816**. Lower values indicate a better likelihood when comparing models on the same test realization.
+
+The script also saves `evaluation.png` in the project root. The solid curve uses the fitted parameters, and the dashed curve uses the true parameters; both conditional intensities use the same test event history. The plot's horizontal axis shows the index of each of the 3,000 evenly spaced evaluation points over $[0,200]$.
+
+![Fitted and true conditional intensities on an independent test simulation](figures/evaluation.png)
 
 ## Notes
 
