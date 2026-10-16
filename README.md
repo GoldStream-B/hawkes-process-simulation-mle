@@ -1,6 +1,6 @@
 # Exponential Hawkes Process Simulation and Estimation
 
-This repository provides a compact implementation of a univariate Hawkes process with an exponential excitation kernel. It demonstrates event simulation with Ogata's thinning algorithm, maximum-likelihood estimation (MLE), and the effect of fitting the model with either a subset or all of the observed events.
+This repository provides a compact implementation of a univariate Hawkes process with an exponential excitation kernel. It demonstrates event simulation with Ogata's thinning algorithm, maximum-likelihood estimation (MLE), the effect of fitting the model with either a subset or all of the observed events, and fitting one model across multiple independent simulations.
 
 > **Disclaimer:** This is a personal learning project created for educational practice. It is not a research project and should not be treated as original scientific work.
 
@@ -42,6 +42,7 @@ With the current parameters and random seed, the simulation produces 264 events.
 hawkes_simulation.py   Simulates event times with Ogata's thinning algorithm
 mle_and_plot.py        Runs partial-data and full-data MLE and creates figures
 mle2nd.py              Evaluates a full-data fit on an independent simulation
+mle3rd.py              Fits across multiple simulations and evaluates on a held-out simulation
 requirements.txt       Python dependencies
 figures/               Example output figures used in this README
 ```
@@ -123,6 +124,18 @@ The script prints the test negative log-likelihood divided by the number of test
 The script saves `figures/evaluation.png`. The solid curve uses the fitted parameters, and the dashed curve uses the true parameters; both conditional intensities use the same test event history. The horizontal axis shows time over $[0,200]$, sampled at 3,000 evenly spaced points.
 
 ![Fitted and true conditional intensities on an independent test simulation](figures/evaluation.png)
+
+## Training on Multiple Realizations
+
+Run the experiment with:
+
+```bash
+python mle3rd.py
+```
+
+The script simulates 77 independent training realizations over $[0,200]$ (seeds 3 through 79), all with true parameters $(\mu,\alpha,\beta)=(0.5,0.8,1.2)$. It fits one shared parameter set by minimizing the sum of their negative log-likelihoods. Each realization contributes its own event history to the objective. The L-BFGS-B optimizer starts from $\mu=0.25$, a branching ratio of $0.5$, and $\beta=1$.
+
+A separate realization with seed 2, also used by `mle2nd.py`, is used for evaluation. The script prints the fitted $(\mu,\alpha,\beta)$ values, followed by the test negative log-likelihood divided by the number of test events. With the current seeds, these are approximately $(0.5080,0.8135,1.2344)$ and **0.269225**, respectively. The script does not save a figure.
 
 ## Notes
 
